@@ -7,6 +7,7 @@
 
 namespace Hazel {
 
+	// Window属性,包含标题，宽度，高度
 	struct WindowProps
 	{
 		std::string Title;
@@ -21,7 +22,7 @@ namespace Hazel {
 		}
 	};
 
-	// Window接口，
+	// Window接口，用于创建窗口
 	class HAZEL_API Window
 	{
 	public:

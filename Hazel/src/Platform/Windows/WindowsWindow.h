@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h>
 
 namespace Hazel {
-
+	// 在Windows平台下的窗口实现
 	class WindowsWindow : public Window
 	{
 	public:
@@ -14,11 +14,11 @@ namespace Hazel {
 
 		void OnUpdate() override;
 
-		inline unsigned int GetWidth() const override { return m_Data.Width; }
-		inline unsigned int GetHeight() const override { return m_Data.Height; }
+		unsigned int GetWidth() const override { return m_Data.Width; }
+		unsigned int GetHeight() const override { return m_Data.Height; }
 
 		// Window attributes
-		inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
+		void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 	private:
@@ -27,6 +27,7 @@ namespace Hazel {
 	private:
 		GLFWwindow* m_Window;
 
+		// 传递给GLFW的回调函数
 		struct WindowData
 		{
 			std::string Title;
