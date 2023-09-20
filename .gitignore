@@ -13,5 +13,6 @@ Intermediates/
 **.vcxproj.filters
 **.vcxproj.user
 **.csproj
+**.cd
 
 

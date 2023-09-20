@@ -58,6 +58,7 @@ namespace Hazel
 		// EventDispatcher被指定为Event的友元类，可以访问Event的私有成员
 		friend class EventDispatcher;
 	public:
+		virtual ~Event() = default;
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
 		virtual int GetCategoryFlags() const = 0;
