@@ -5,6 +5,8 @@
 #include "Hazel/Events/MouseEvent.h"
 #include "Hazel/Events/KeyEvent.h"
 
+#include <glad/glad.h>
+
 
 namespace Hazel {
 
@@ -54,6 +56,11 @@ namespace Hazel {
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		// 将当前的窗口设置为主窗口
 		glfwMakeContextCurrent(m_Window);
+
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		HZ_CORE_ASSERT(status, "Failed to initialize Glad!");
+
+
 		// 设置窗口的回调函数
 		// glfwSetWindowUserPointer用于将一个自定义指针（通常是一个指向用户定义的数据结构的指针）关联到一个窗口对象上。这个函数的目的是让你能够在窗口的事件处理函数中访问自定义数据，以便在处理事件时能够访问和操作你的应用程序数据。
 		glfwSetWindowUserPointer(m_Window, &m_Data);
