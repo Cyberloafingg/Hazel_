@@ -11,9 +11,9 @@ namespace Hazel {
 		Layer(const std::string& name = "Layer");
 		virtual ~Layer();
 
-		// OnAttach()是在Layer被添加到LayerStack调用的
+		// OnAttach()是在Layer被添加到LayerStack调用的,类似与构造
 		virtual void OnAttach() {}
-		// OnDetach()是在Layer被从LayerStack中移除调用的
+		// OnDetach()是在Layer被从LayerStack中移除调用的，类似与析构
 		virtual void OnDetach() {}
 		// OnUpdate()是在每一帧调用的
 		virtual void OnUpdate() {}

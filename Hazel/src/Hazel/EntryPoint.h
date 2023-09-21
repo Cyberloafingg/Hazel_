@@ -12,6 +12,9 @@ int main(int argc, char** argv)
 	const auto app = Hazel::CreateApplication();
 	app->Run();
 	delete app;
+	std::vector<int> a = {1,2,3};
+	a.emplace(a.begin(), 3);
+
 }
 
 #else

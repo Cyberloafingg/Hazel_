@@ -20,6 +20,10 @@ namespace Hazel
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
+
+		Window& GetWindow() { return *m_Window; }
+
+		static Application& Get() { return *s_Instance; }
 	private:
 		// 单独的窗口
 		std::shared_ptr<Window> m_Window;
@@ -30,6 +34,9 @@ namespace Hazel
 
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
+	private:
+	// 单例模式
+		static Application* s_Instance;
 	};
 
 	// To be defined in CLIENT,在客户端定义

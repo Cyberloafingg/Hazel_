@@ -11,13 +11,15 @@ namespace Hazel {
 
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
+	Application* Application::s_Instance = nullptr;
+
 	Application::Application()
 	{
+		HZ_CORE_ASSERT(!s_Instance, "Application already exists!");
+		s_Instance = this;
+
 		m_Window = std::unique_ptr<Window>(Window::Create());
-		// 等价于std::bind(&Application::OnEvent, this, std::placeholders::_1);
-		// 这里相当于给using EventCallbackFn = std::function<void(Event&)>;绑定的函数是OnEvent
-		//m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
-		// 这里必须传入this指针，因为OnEvent是Application的成员函数，必须要有this指针才能调用
+
 		m_Window->SetEventCallback(std::bind(&Application::OnEvent, this,std::placeholders::_1));
 		// 或者可以写成lambda表达式
 		// m_Window->SetEventCallback([](Event& e) {HZ_CORE_TRACE("{0}", e); });
@@ -30,11 +32,13 @@ namespace Hazel {
 	void Application::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* layer)
 	{
 		m_LayerStack.PushOverlay(layer);
+		layer->OnAttach();
 	}
 
 
