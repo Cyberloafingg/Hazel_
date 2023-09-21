@@ -16,7 +16,9 @@ namespace Hazel {
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		// 等价于std::bind(&Application::OnEvent, this, std::placeholders::_1);
 		// 这里相当于给using EventCallbackFn = std::function<void(Event&)>;绑定的函数是OnEvent
-		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+		//m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+		// 这里必须传入this指针，因为OnEvent是Application的成员函数，必须要有this指针才能调用
+		m_Window->SetEventCallback(std::bind(&Application::OnEvent, this,std::placeholders::_1));
 		// 或者可以写成lambda表达式
 		// m_Window->SetEventCallback([](Event& e) {HZ_CORE_TRACE("{0}", e); });
 	}
@@ -24,6 +26,17 @@ namespace Hazel {
 	Application::~Application()
 	{
 	}
+
+	void Application::PushLayer(Layer* layer)
+	{
+		m_LayerStack.PushLayer(layer);
+	}
+
+	void Application::PushOverlay(Layer* layer)
+	{
+		m_LayerStack.PushOverlay(layer);
+	}
+
 
 	void Application::OnEvent(Event& e)
 	{
@@ -34,6 +47,14 @@ namespace Hazel {
 
 		
 		HZ_CORE_TRACE("{0}", e);
+
+		for(auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
+		{
+			(*--it)->OnEvent(e);
+			if (e.Handled)
+				break;
+		}
+
 	}
 
 	void Application::Run()
@@ -42,6 +63,10 @@ namespace Hazel {
 		{
 			glClearColor(1, 0, 1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			for(Layer* layer : m_LayerStack)
+				layer->OnUpdate();
+
 			m_Window->OnUpdate();
 		}
 	}

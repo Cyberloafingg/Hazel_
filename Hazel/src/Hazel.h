@@ -5,4 +5,5 @@
 #include "Hazel/Log.h"
 // 用于应用程序的入口点
 #include "Hazel/EntryPoint.h"
+#include "Hazel/Layer.h"
 // 
