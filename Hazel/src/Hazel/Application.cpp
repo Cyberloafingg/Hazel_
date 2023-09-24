@@ -60,7 +60,7 @@ namespace Hazel {
 		}
 
 	}
-
+	
 	void Application::Run()
 	{
 		while (m_Running)
